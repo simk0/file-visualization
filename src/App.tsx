@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
-import { Button, InputNumber, Space } from "antd";
+import { Button, InputNumber } from "antd";
+
 const BinaryArrayDisplay: React.FC<{
   binaryArray: boolean[];
   width: number;
@@ -23,8 +24,8 @@ const BinaryArrayDisplay: React.FC<{
         canvas.width = width;
         canvas.height = height;
 
-        ctx.fillStyle = "white";
-        ctx.fillRect(0, 0, width, height);
+        ctx.fillStyle = "#333"; // Dark grey color for background
+        ctx.fillRect(0, 0, width, height); // Fill the canvas with background color
 
         binaryArray.slice(0, columns * rows).forEach((value, index) => {
           const col = index % columns;
@@ -66,7 +67,6 @@ const BinaryArrayDisplay: React.FC<{
           const x = e.clientX - rect.left;
           const y = e.clientY - rect.top;
           const columns = Math.ceil(Math.sqrt(binaryArray.length));
-          // inside onMouseMove event handler
           const row = Math.floor(
             y / (height / Math.ceil(binaryArray.length / columns))
           );
@@ -86,21 +86,23 @@ const BinaryArrayDisplay: React.FC<{
 
 const App: React.FC = () => {
   const [binaryArray, setBinaryArray] = React.useState<boolean[]>([]);
-  const [width, setWidth] = React.useState<number>(500); // Начальная ширина
-  const [height, setHeight] = React.useState<number>(500); // Начальная высота
+  const [width, setWidth] = React.useState<number>(500); // Initial width
+  const [height, setHeight] = React.useState<number>(500); // Initial height
+  const [fileSize, setFileSize] = React.useState<string>("");
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      setFileSize((file.size / (1024 * 1024)).toFixed(2) + " MB");
       const reader = new FileReader();
       reader.onload = (e) => {
         const binaryString = e.target?.result as string;
         const binaryArray = binaryString.split("").map((bit) => bit === "1");
         setBinaryArray(binaryArray);
-        console.log("Файл успешно загружен. Поддерживаемый формат.");
+        console.log("File loaded successfully. Supported format.");
       };
       reader.onerror = (e) => {
-        console.error("Ошибка загрузки файла. Неподдерживаемый формат.");
+        console.error("Error loading file. Unsupported format.");
       };
       reader.readAsBinaryString(file);
     }
@@ -113,12 +115,12 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <h1>Візуалізація файлу</h1>
+      <h1>File Visualization</h1>
       <input className="file-input" type="file" onChange={handleFileChange} />
-      <br />
+      {fileSize && <p>File size: {fileSize}</p>}
       <div className="input-fields">
         <div className="input-row">
-          <label>Ширина:</label>
+          <label>Width:</label>
           <InputNumber
             min={1}
             max={3000}
@@ -129,7 +131,7 @@ const App: React.FC = () => {
           />
         </div>
         <div className="input-row">
-          <label>Висота:</label>
+          <label>Height:</label>
           <InputNumber
             min={1}
             max={3000}
@@ -141,7 +143,7 @@ const App: React.FC = () => {
         </div>
       </div>
       <Button type="primary" onClick={resetValues}>
-        Скинути до початкових розмірів{" "}
+        Reset Sizes to Default
       </Button>
       <br />
 
