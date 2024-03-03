@@ -1,38 +1,41 @@
 .App {
   text-align: center;
+  padding: 20px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.input-fields {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.input-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px; /* Отступ между инпутами */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.input-row label {
+  margin-right: 10px; /* Отступ между меткой и инпутом */
+}
+
+canvas {
+  margin-top: 20px;
+}
+.file-input {
+  margin-bottom: 10px;;
+  font-size: 14px; /* Увеличиваем размер шрифта */
+  padding: 10px; /* Добавляем внутренний отступ */
+  border: 2px solid #ccc; /* Добавляем рамку */
+  border-radius: 5px; /* Закругляем углы */
+  background-color: #f9f9f9; /* Добавляем фоновый цвет */
+  cursor: pointer; /* Заменяем курсор при наведении */
+}
+
+.file-input:hover {
+  background-color: #e9e9e9; /* Изменяем фон при наведении */
+}
+
+.file-input:active {
+  background-color: #ddd; /* Изменяем фон при нажатии */
 }
